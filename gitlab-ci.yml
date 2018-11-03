@@ -1,7 +1,7 @@
 .common:
   tags_template: &tags
     tags:
-      - $GITLAB_RUNNER_TAG
+      - mintel
   docker_template: &docker
     services: 
       - docker:stable-dind
