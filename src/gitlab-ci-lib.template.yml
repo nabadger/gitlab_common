@@ -1,3 +1,11 @@
+stages:
+  - build
+  - test
+  - review
+  - staging
+  - production
+  - tag_latest
+
 .common:
   tags_template: &tags
     tags:

@@ -1,0 +1,5 @@
+include: 'https://raw.githubusercontent.com/mintel/gitlab_common/master/src/gitlab-ci-lib.template.yml'
+
+deploy:
+  script:
+    - echo "Not deploying this configuration package"
