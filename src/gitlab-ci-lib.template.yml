@@ -45,7 +45,7 @@ stages:
   script:
     - command deploy
   environment:
-    name: review/$CI_COMMIT_REF_NAME
+    name: $CI_PROJECT_NAME/review/$CI_COMMIT_REF_NAME
     url: https://$CI_ENVIRONMENT_SLUG-$KUBE_DOMAIN
     on_stop: review_stop
   only:
@@ -64,7 +64,7 @@ stages:
   script:
     - command destroy
   environment:
-    name: review/$CI_COMMIT_REF_NAME
+    name: $CI_PROJECT_NAME/review/$CI_COMMIT_REF_NAME
     action: stop
   when: manual
   only:
@@ -81,7 +81,7 @@ stages:
   script:
     - command deploy
   environment:
-    name: staging
+    name: $CI_PROJECT_NAME/staging
     url: https://staging-$KUBE_DOMAIN
   only:
     - master
@@ -92,7 +92,7 @@ stages:
   script:
     - command deploy
   environment:
-    name: production
+    name: $CI_PROJECT_NAME/production
     url: https://$KUBE_DOMAIN
   when: manual
   allow_failure: false
@@ -105,7 +105,7 @@ stages:
   script:
     - command deploy
   environment:
-    name: production
+    name: $CI_PROJECT_NAME/production
     url: https://$KUBE_DOMAIN
   when: manual
   allow_failure: false
@@ -117,7 +117,7 @@ stages:
   stage: canary_destroy
   allow_failure: false
   environment:
-    name: production  
+    name: $CI_PROJECT_NAME/production
   script:
     - command destroy-canary
   only:
