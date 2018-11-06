@@ -3,8 +3,42 @@ stages:
   - test
   - review
   - staging
+  - canary
   - production
+  - canary_destroy 
   - tag_latest
+
+build:
+  stage: build
+  extends: .build_template
+
+container_scan:
+  stage: test
+  extends: .container_scan_template
+
+review:
+  stage: review 
+  extends: .review_template
+
+review_stop:
+  stage: review 
+  extends: .review_stop_template
+
+canary:
+  stage: canary
+  extends: .canary_template
+
+producton:
+  stage: production
+  extends: .production_template
+
+canary_destroy:
+  stage: canary_destroy 
+  extends: .canary_destroy_template
+
+tag_latest:
+  stage: tag_latest 
+  extends: .tag_latest_template
 
 .common:
   tags_template: &tags
