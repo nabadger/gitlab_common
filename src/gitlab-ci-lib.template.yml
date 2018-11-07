@@ -28,7 +28,7 @@ canary:
   stage: canary
   extends: .canary_template
 
-producton:
+production:
   stage: production
   extends: .production_template
 
