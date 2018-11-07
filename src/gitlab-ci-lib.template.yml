@@ -80,7 +80,7 @@ tag_latest:
     - command deploy
   environment:
     name: review/$CI_COMMIT_REF_NAME
-    url: https://$CI_ENVIRONMENT_SLUG-$KUBE_DOMAIN
+    url: https://$CI_ENVIRONMENT_SLUG-$KUBE_HOST.$KUBE_DOMAIN
     on_stop: review_stop
   only:
     - branches
@@ -116,7 +116,7 @@ tag_latest:
     - command deploy
   environment:
     name: staging
-    url: https://staging-$KUBE_DOMAIN
+    url: https://staging-$KUBE_HOST.$KUBE_DOMAIN
   only:
     - master
 
@@ -127,7 +127,7 @@ tag_latest:
     - command deploy
   environment:
     name: production
-    url: https://$KUBE_DOMAIN
+    url: https://$KUBE_HOST.$KUBE_DOMAIN
   when: manual
   allow_failure: false
   only:
@@ -140,7 +140,7 @@ tag_latest:
     - command deploy
   environment:
     name: production
-    url: https://$KUBE_DOMAIN
+    url: https://$KUBE_HOST.$KUBE_DOMAIN
   when: manual
   allow_failure: false
   only:
