@@ -1,0 +1,126 @@
+.common:
+  tags_template: &tags
+    tags:
+      - mintel
+  docker_template: &docker
+    services: 
+      - docker:stable-dind
+    variables:
+      DOCKER_DRIVER: overlay2
+
+.build_template:
+  <<: *tags
+  <<: *docker
+  stage: 
+    build
+  script:
+    - command build
+  only:
+    - branches
+
+.container_scan_template:
+  <<: *tags
+  <<: *docker
+  stage: test
+  allow_failure: true
+  script:
+    - command container_scan
+  artifacts:
+    paths: [gl-container-scanning-report.json]
+  except:
+    variables:
+      - $CONTAINER_SCANNING_DISABLED
+
+.review_template:
+  <<: *tags
+  stage: review
+  script:
+    - command deploy
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://$CI_ENVIRONMENT_SLUG-$KUBE_HOST.$KUBE_DOMAIN
+    on_stop: review_stop
+  only:
+    - branches
+  except:
+    refs:
+      - master
+    variables:
+      - $REVIEW_DISABLED
+
+.review_stop_template:
+  <<: *tags
+  stage: review
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - command destroy
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+  when: manual
+  only:
+    - branches
+  except:
+    refs:
+      - master
+    variables:
+      - $REVIEW_DISABLED
+
+.staging_template:
+  <<: *tags
+  stage: staging
+  script:
+    - command deploy
+  environment:
+    name: staging
+    url: https://staging-$KUBE_HOST.$KUBE_DOMAIN
+  only:
+    - master
+
+.canary_template:
+  <<: *tags
+  stage: canary
+  script:
+    - command deploy
+  environment:
+    name: production
+    url: https://$KUBE_HOST.$KUBE_DOMAIN
+  when: manual
+  allow_failure: false
+  only:
+    - master
+
+.production_template:
+  <<: *tags
+  stage: production
+  script:
+    - command deploy
+  environment:
+    name: production
+    url: https://$KUBE_HOST.$KUBE_DOMAIN
+  when: manual
+  allow_failure: false
+  only:
+    - master
+
+.canary_destroy_template:
+  <<: *tags
+  stage: canary_destroy
+  allow_failure: false
+  environment:
+    name: production
+  script:
+    - command destroy-canary
+  only:
+    - $CI_PIPELINE_AGENT_TAG
+
+.tag_latest_template:
+  <<: *tags
+  <<: *docker
+  stage: tag_latest
+  allow_failure: false
+  script:
+    - command push
+  only:
+    - master
