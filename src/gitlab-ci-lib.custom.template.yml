@@ -1,3 +1,13 @@
+stages:
+  - build
+  - test
+  - review
+  - staging
+  - canary
+  - production
+  - canary_destroy 
+  - tag_latest
+
 .common:
   tags_template: &tags
     tags:
