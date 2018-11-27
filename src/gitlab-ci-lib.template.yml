@@ -24,6 +24,10 @@ review_stop:
   stage: review 
   extends: .review_stop_template
 
+staging:
+  stage: staging
+  extends: .staging_template
+
 canary:
   stage: canary
   extends: .canary_template
