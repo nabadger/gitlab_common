@@ -97,8 +97,6 @@ tag_latest:
 .review_stop_template:
   <<: *tags
   stage: review
-  variables:
-    GIT_STRATEGY: none
   script:
     - command destroy
   environment:
