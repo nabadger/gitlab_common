@@ -121,6 +121,9 @@ tag_latest:
     url: https://staging-$KUBE_HOST.$KUBE_DOMAIN
   only:
     - master
+  except:
+    variables:
+      - $STAGING_DISABLED
 
 .canary_template:
   <<: *tags
@@ -134,6 +137,9 @@ tag_latest:
   allow_failure: false
   only:
     - master
+  except:
+    variables:
+      - $CANARY_DISABLED
 
 .production_template:
   <<: *tags
@@ -158,6 +164,9 @@ tag_latest:
     - command destroy-canary
   only:
     - $CI_PIPELINE_AGENT_TAG
+  except:
+    variables:
+      - $CANARY_DISABLED
 
 .tag_latest_template:
   <<: *tags
