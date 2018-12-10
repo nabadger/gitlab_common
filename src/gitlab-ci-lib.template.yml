@@ -153,6 +153,9 @@ tag_latest:
   allow_failure: false
   only:
     - master
+  except:
+    variables:
+      - $PRODUCTION_DISABLED
 
 .canary_destroy_template:
   <<: *tags
@@ -177,3 +180,6 @@ tag_latest:
     - command push
   only:
     - master
+  except:
+    variables:
+      - $TAG_LATEST_DISABLED
