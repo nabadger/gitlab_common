@@ -22,7 +22,7 @@
   <<: *tags
   <<: *docker
   stage: test
-  allow_failure: true
+  allow_failure: false
   script:
     - command container_scan
   artifacts:
