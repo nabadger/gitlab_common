@@ -86,6 +86,7 @@ tag_latest:
     name: review/$CI_COMMIT_REF_NAME
     url: https://$CI_ENVIRONMENT_SLUG-$KUBE_HOST.$KUBE_DOMAIN
     on_stop: review_stop
+  when: manual
   only:
     - branches
   except:
