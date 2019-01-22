@@ -16,6 +16,10 @@ container_scan:
   stage: test
   extends: .container_scan_template
 
+lint_k8s:
+  stage: review
+  extends: .lint_k8s_template
+
 review:
   stage: review 
   extends: .review_template
@@ -76,6 +80,15 @@ tag_latest:
   except:
     variables:
       - $CONTAINER_SCANNING_DISABLED
+
+.lint_k8s_template:
+  <<: *tags
+  allow_failure: false
+  stage: review
+  environment:
+    name: lint-k8s
+  script:
+    - command lint-k8s
 
 .review_template:
   <<: *tags
