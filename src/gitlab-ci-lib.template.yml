@@ -17,7 +17,7 @@ container_scan:
   extends: .container_scan_template
 
 lint_k8s:
-  stage: review
+  stage: test
   extends: .lint_k8s_template
 
 review:
@@ -84,9 +84,7 @@ tag_latest:
 .lint_k8s_template:
   <<: *tags
   allow_failure: false
-  stage: review
-  environment:
-    name: lint-k8s
+  stage: test
   script:
     - command lint-k8s
 
