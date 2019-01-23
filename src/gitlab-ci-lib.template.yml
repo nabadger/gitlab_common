@@ -68,7 +68,7 @@ tag_latest:
   <<: *tags
   <<: *docker
   stage: test
-  allow_failure: false
+  allow_failure: true
   script:
     - command container_scan
   artifacts:
