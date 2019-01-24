@@ -5,44 +5,44 @@ stages:
   - staging
   - canary
   - production
-  - canary_destroy 
-  - tag_latest
+  - canary-destroy
+  - tag-latest
 
 build:
   stage: build
   extends: .build_template
 
-container_scan:
+container-scan:
   stage: test
-  extends: .container_scan_template
+  extends: .container-scan-template
 
 review:
   stage: review 
-  extends: .review_template
+  extends: .review-template
 
-review_stop:
+review-stop:
   stage: review 
-  extends: .review_stop_template
+  extends: .review-stop-template
 
 staging:
   stage: staging
-  extends: .staging_template
+  extends: .staging-template
 
 canary:
   stage: canary
-  extends: .canary_template
+  extends: .canary-template
 
 production:
   stage: production
-  extends: .production_template
+  extends: .production-template
 
-canary_destroy:
+canary-destroy:
   stage: canary_destroy 
-  extends: .canary_destroy_template
+  extends: .canary-destroy-template
 
-tag_latest:
-  stage: tag_latest 
-  extends: .tag_latest_template
+tag-latest:
+  stage: tag-latest
+  extends: .tag-latest-template
 
 .common:
   tags_template: &tags
@@ -54,7 +54,7 @@ tag_latest:
     variables:
       DOCKER_DRIVER: overlay2
 
-.build_template:
+.build-template:
   <<: *tags
   <<: *docker
   stage: 
@@ -64,7 +64,7 @@ tag_latest:
   only:
     - branches
 
-.container_scan_template:
+.container-scan-template:
   <<: *tags
   <<: *docker
   stage: test
@@ -77,7 +77,7 @@ tag_latest:
     variables:
       - $CONTAINER_SCANNING_DISABLED
 
-.review_template:
+.review-template:
   <<: *tags
   stage: review
   script:
@@ -94,7 +94,7 @@ tag_latest:
     variables:
       - $REVIEW_DISABLED
 
-.review_stop_template:
+.review-stop-template:
   <<: *tags
   stage: review
   script:
@@ -111,7 +111,7 @@ tag_latest:
     variables:
       - $REVIEW_DISABLED
 
-.staging_template:
+.staging-template:
   <<: *tags
   stage: staging
   script:
@@ -124,7 +124,7 @@ tag_latest:
     variables:
       - $STAGING_DISABLED
 
-.canary_template:
+.canary-template:
   <<: *tags
   stage: canary
   script:
@@ -139,7 +139,7 @@ tag_latest:
     variables:
       - $CANARY_DISABLED
 
-.production_template:
+.production-template:
   <<: *tags
   stage: production
   script:
@@ -154,7 +154,7 @@ tag_latest:
     variables:
       - $PRODUCTION_DISABLED
 
-.canary_destroy_template:
+.canary-destroy-template:
   <<: *tags
   stage: canary_destroy
   allow_failure: false
@@ -168,10 +168,10 @@ tag_latest:
     variables:
       - $CANARY_DISABLED
 
-.tag_latest_template:
+.tag-latest-template:
   <<: *tags
   <<: *docker
-  stage: tag_latest
+  stage: tag-latest
   allow_failure: false
   script:
     - command push
