@@ -25,8 +25,6 @@
   allow_failure: false
   script:
     - command container_scan
-  artifacts:
-    paths: [gl-container-scanning-report.json]
   except:
     variables:
       - $CONTAINER_SCANNING_DISABLED
