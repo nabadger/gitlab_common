@@ -82,22 +82,6 @@
     variables:
       - $STAGING_DISABLED
 
-.canary_template:
-  <<: *tags
-  stage: canary
-  script:
-    - command deploy
-  environment:
-    name: production
-    url: https://$KUBE_HOST.$KUBE_DOMAIN
-  when: manual
-  allow_failure: false
-  only:
-    - master
-  except:
-    variables:
-      - $CANARY_DISABLED
-
 .production_template:
   <<: *tags
   stage: production
@@ -113,20 +97,6 @@
   except:
     variables:
       - $PRODUCTION_DISABLED
-
-.canary_destroy_template:
-  <<: *tags
-  stage: canary_destroy
-  allow_failure: false
-  environment:
-    name: production
-  script:
-    - command destroy-canary
-  only:
-    - $CI_PIPELINE_AGENT_TAG
-  except:
-    variables:
-      - $CANARY_DISABLED
 
 .tag_latest_template:
   <<: *tags
