@@ -3,9 +3,7 @@ stages:
   - test
   - review
   - staging
-  - canary
   - production
-  - canary_destroy 
   - tag_latest
 
 build:
@@ -28,17 +26,9 @@ staging:
   stage: staging
   extends: .staging_template
 
-canary:
-  stage: canary
-  extends: .canary_template
-
 production:
   stage: production
   extends: .production_template
-
-canary_destroy:
-  stage: canary_destroy 
-  extends: .canary_destroy_template
 
 tag_latest:
   stage: tag_latest 
@@ -124,21 +114,6 @@ tag_latest:
     variables:
       - $STAGING_DISABLED
 
-.canary_template:
-  <<: *tags
-  stage: canary
-  script:
-    - command deploy
-  environment:
-    name: production
-  when: manual
-  allow_failure: false
-  only:
-    - master
-  except:
-    variables:
-      - $CANARY_DISABLED
-
 .production_template:
   <<: *tags
   stage: production
@@ -153,20 +128,6 @@ tag_latest:
   except:
     variables:
       - $PRODUCTION_DISABLED
-
-.canary_destroy_template:
-  <<: *tags
-  stage: canary_destroy
-  allow_failure: false
-  environment:
-    name: production
-  script:
-    - command destroy-canary
-  only:
-    - $CI_PIPELINE_AGENT_TAG
-  except:
-    variables:
-      - $CANARY_DISABLED
 
 .tag_latest_template:
   <<: *tags
