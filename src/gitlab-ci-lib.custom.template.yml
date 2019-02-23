@@ -31,7 +31,6 @@
 
 .loadtest_template:
   <<: *tags
-  <<: *docker
   stage: post_deploy
   allow_failure: true
   script:
