@@ -29,6 +29,17 @@
     variables:
       - $CONTAINER_SCANNING_DISABLED
 
+.loadtest_template:
+  <<: *tags
+  <<: *docker
+  stage: post_deploy
+  allow_failure: true
+  script:
+    - command loadtest
+  except:
+    variables:
+      - $LOADTEST_DISABLED
+
 .review_template:
   <<: *tags
   stage: review

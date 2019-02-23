@@ -4,6 +4,7 @@ stages:
   - review
   - staging
   - production
+  - post_deploy
   - tag_latest
 
 build:
@@ -13,6 +14,10 @@ build:
 container_scan:
   stage: test
   extends: .container_scan_template
+
+loadtest:
+  stage: post_deploy
+  extends: .loadtest_template
 
 review:
   stage: review 
@@ -64,6 +69,17 @@ tag_latest:
   except:
     variables:
       - $CONTAINER_SCANNING_DISABLED
+
+.loadtest_template:
+  <<: *tags
+  <<: *docker
+  stage: post_deploy
+  allow_failure: true
+  script:
+    - command loadtest
+  except:
+    variables:
+      - $LOADTEST_DISABLED
 
 .review_template:
   <<: *tags
