@@ -4,8 +4,8 @@ stages:
   - review
   - staging
   - production
-  - post_deploy
   - tag_latest
+  - post_deploy
 
 build:
   stage: build
