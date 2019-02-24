@@ -76,6 +76,9 @@ tag_latest:
   allow_failure: true
   script:
     - command loadtest
+  when: manual
+  only:
+    - master
   except:
     variables:
       - $LOADTEST_DISABLED
