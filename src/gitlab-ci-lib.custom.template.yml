@@ -32,10 +32,9 @@
 .loadtest_template:
   <<: *tags
   stage: post_deploy
-  allow_failure: true
+  allow_failure: false
   script:
     - command loadtest
-  when: manual
   only:
     - master
   except:
