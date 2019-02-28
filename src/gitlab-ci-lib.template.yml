@@ -79,8 +79,6 @@ tag_latest:
   when: manual
   only:
     - master
-  environment:
-    name: production
   except:
     variables:
       - $LOADTEST_DISABLED
@@ -93,6 +91,9 @@ tag_latest:
   environment:
     name: review/$CI_COMMIT_REF_NAME
     on_stop: review_stop
+  artifacts:
+    paths:
+      - ci-vars/vars.txt
   when: manual
   only:
     - branches
@@ -139,6 +140,9 @@ tag_latest:
     - command deploy
   environment:
     name: production
+  artifacts:
+    paths:
+      - ci-vars/vars.txt
   when: manual
   allow_failure: false
   only:
